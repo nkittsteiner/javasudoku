@@ -1,13 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package javasudoku;
 
-/**
- *
- * @author nico
- */
 public class Javasudoku {
 
     /**
@@ -15,5 +8,6 @@ public class Javasudoku {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        int matriz[][] = new int[8][8];
     }
 }
