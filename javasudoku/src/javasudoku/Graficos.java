@@ -14,6 +14,7 @@ public class Graficos {
     /*
      * Imprime sodoku
      * recibe la matriz  y la muestra por pantalla.
+     * int omatriz[][]= new int[9][9];
      */
     public void ImprimeSodoku(int omatriz[][]){
          try{            
