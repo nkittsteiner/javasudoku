@@ -8,6 +8,10 @@ public class Javasudoku {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        int matriz[][] = new int[8][8];
+        Sudoku sudoku = new Sudoku();
+        Juego juego = new Juego();
+        sudoku = juego.GeneraNuevoJuego(1);
+        Graficos g = new Graficos();
+        g.ImprimeSodoku(sudoku.getMatriz_solucion());
     }
 }
