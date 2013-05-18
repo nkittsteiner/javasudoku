@@ -1,87 +1,100 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package javasudoku;
 
 import java.util.Date;
 
 /**
  *
- * @author 
+ * Estructura para el manejo de movimientos durante el juego
  */
 public class Movimientos {
-    private int tipo;
+    private String tipo;
     private int fila;
     private int columna;
     private int valor;
     private Date fechaHora;
+    
+    /**
+     * Constructor de la clase
+     * @param _tipo Corresponde al tipo de movimiento efectuado
+     * @param _fila Fila donde se realizó el movimiento
+     * @param _columna Columna donde se realizó el documento
+     * @param _valor Valor del movimiento
+     * @param _fechaHora Fecha y hora del movimiento
+     */
+    public Movimientos(String _tipo, int _fila, int _columna, int _valor, Date _fechaHora)
+    {
+        this.tipo = _tipo;
+        this.fila = _fila;
+        this.columna = _columna;
+        this.valor = _valor; 
+        this.fechaHora = _fechaHora;
+    }
 
     /**
-     * @return the tipo
+     * @return Retorna el tipo
      */
-    public int getTipo() {
+    public String getTipo() {
         return tipo;
     }
 
     /**
-     * @param tipo the tipo to set
+     * @param tipo Tipo de movimiento a setear
      */
-    public void setTipo(int tipo) {
+    public void setTipo(String tipo) {
         this.tipo = tipo;
     }
 
     /**
-     * @return the fila
+     * @return Retorna la fila del movimiento
      */
     public int getFila() {
         return fila;
     }
 
     /**
-     * @param fila the fila to set
+     * @param fila Actualiza el valor de la fila
      */
     public void setFila(int fila) {
         this.fila = fila;
     }
 
     /**
-     * @return the columna
+     * @return Retorna la columna del movimiento
      */
     public int getColumna() {
         return columna;
     }
 
     /**
-     * @param columna the columna to set
+     * @param columna Columna del movimiento a actualizar
      */
     public void setColumna(int columna) {
         this.columna = columna;
     }
 
     /**
-     * @return the valor
+     * @return Valor del movimiento
      */
     public int getValor() {
         return valor;
     }
 
     /**
-     * @param valor the valor to set
+     * @param valor Actualiza el valor del movimiento
      */
     public void setValor(int valor) {
         this.valor = valor;
     }
 
     /**
-     * @return the fechaHora
+     * @return Fecha del movimiento
      */
     public Date getFechaHora() {
         return fechaHora;
     }
 
     /**
-     * @param fechaHora the fechaHora to set
+     * @param fechaHora Actualiza la fecha del movimientos
      */
     public void setFechaHora(Date fechaHora) {
         this.fechaHora = fechaHora;

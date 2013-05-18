@@ -1,8 +1,13 @@
 package javasudoku;
 
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Date;
+/**
+ * 
+ * Estructura que maneja una secuencia utilizada al momento de generar los números del Sudoku
+ */
 class Secuencia {
     int valor;
     boolean activo;
@@ -276,7 +281,6 @@ public class Juego {
                     if(matriz[fila][i]==resp)
                     {
                         validaFila = false;
-
                     }
                 }                
             }    
@@ -340,6 +344,57 @@ public class Juego {
         }
         return matriz;
     }
+    
+    /**
+     * Elimina elementos de la matriz de acuerdo a la dificultad indicada
+     * @param matriz Matriz de juego
+     * @param dificultad Dato de dificultad
+     * @return Matriz con elementos 'eliminados'
+     */
+    private int[][] BorraElementosPorDificultad(int[][] matriz, int dificultad)
+    {
+        int[][] resp = new int[9][9];
+        int borrar=0;
+        int x = 0;
+        int y = 0;
+        //Fácil
+        if(dificultad==1)
+        {
+            borrar = 81 - 38;
+        }
+        //Intermedia
+        else if(dificultad==2)
+        {
+            borrar = 81 - 30;
+        }
+        //Difícil
+        else if(dificultad==3)
+        {
+            borrar = 81 - 27;
+        }
+        
+        for (int i = 0; i < matriz.length; i++) {
+            for (int j = 0; j < matriz[0].length; j++) {
+                resp[i][j] = matriz[i][j];
+            }
+        }
+        
+        
+        do
+        {
+            x = (int)(Math.random() * (10 - 1));
+            y = (int)(Math.random() * (10 - 1));
+            
+            if(resp[x][y]>0)
+            {
+                borrar = borrar - 1;
+                resp[x][y]=0;
+            }
+        }
+        while(borrar>0);
+        
+        return resp;
+    }
 
     /**
      * Devuelve una instancia de Sudoku con las matrices inicializadas
@@ -349,35 +404,126 @@ public class Juego {
     public Sudoku GeneraNuevoJuego(int dificultad) 
     {                
         Sudoku sudoku = new Sudoku();
+        int[][] solucion = new int[9][9];
         sudoku.setMatriz_solucion(GeneraMatrizInicial());
-        //TODO: Crear matriz de juego de acuerdo a dificultad y llenar matriz inicial
+        solucion = sudoku.getMatriz_solucion();
+        sudoku.setMatriz_inicial(BorraElementosPorDificultad(solucion,
+                dificultad));
+        sudoku.setMatriz_actual(sudoku.getMatriz_inicial());
+        
         return sudoku;
     }
     
-    public void ReiniciarJuego(Sudoku sudoku)
+    /**
+     * Permite volver al juego original inicializando nuevamente la matriz de la partida
+     * @param sudoku 
+     */
+    public Sudoku ReiniciarJuego(Sudoku sudoku)
     {
+        sudoku.setListadoMovimientos(null);
         sudoku.setMatriz_actual(sudoku.getMatriz_inicial());
+        return(sudoku);
     }
     
-    
-    public void BorrarPosicion(int fila, int columna)
+    /**
+     * Borra el dato en la posición indicada 
+     * @param sudoku Instancia actual del juego
+     * @param fila número de fila ingresado
+     * @param columna número de columna 
+     * @return Instancia de Sudoku actualizada
+     */
+    public Sudoku BorrarPosicion(Sudoku sudoku, int fila, int columna)
     {
-        //TODO: Crear comando borrar posición
+        Sudoku response = null;
+        int[][] resp = null;
+        try
+        {
+            resp = sudoku.getMatriz_actual();
+            resp[fila-1][columna-1] = 0;
+            sudoku.setMatriz_actual(resp);
+            
+            //Se agrega al listado de movimientos
+            List<Movimientos> movimientos = sudoku.getListadoMovimientos();
+            movimientos.add(new Movimientos("Eliminación", fila-1, columna-1, 0, new Date()));
+            
+            sudoku.setListadoMovimientos(movimientos);
+            response = sudoku;
+        }
+        catch(Exception e)
+        {
+        }
+        return response;
     }
     
-    public void ModificarPosicion(int fila, int columna,int valor)
+    /**
+     * Modifica una posición en el juego actual
+     * @param sudoku Instancia de la clase Sudoku
+     * @param fila Fila donde se quiere realizar la modificación
+     * @param columna Columna donde se quiere realizar la modificación
+     * @param valor Valor a modificar
+     * @return Instancia de Sudoku actualizada
+     */
+    public Sudoku ModificarPosicion(Sudoku sudoku, int fila, int columna,int valor)
     {
-        //TODO: Crear comando modificar posición
+        Sudoku resp = null;
+        int[][] matrizActual = null;
+        try
+        {   
+            matrizActual = sudoku.getMatriz_actual();
+            matrizActual[fila-1][columna-1] = valor;
+            sudoku.setMatriz_actual(matrizActual);
+            //Se agrega al listado de movimientos
+            List<Movimientos> movimientos = sudoku.getListadoMovimientos();
+            movimientos.add(new Movimientos("Modificación", fila-1, columna-1, valor, new Date()));
+            
+            sudoku.setListadoMovimientos(movimientos);
+            
+            resp = sudoku;
+        }
+        catch(Exception e)
+        {
+        }
+        return resp;
     }
     
+    /**
+     * Lista los movimientos en la instancia actual de Sudoku
+     * @param sudoku Instancia actual de Sudoku
+     * @return Lista de movimientos efectuados
+     */
     public List<Movimientos> ListarMovimientos(Sudoku sudoku)
     {
         return sudoku.getListadoMovimientos();
     }
     
+    /**
+     * Devuelve la matriz de la solución
+     * @param sudoku Instancia actual de Sudoku
+     * @return Matriz de la solución del juego
+     */
     public int[][] ObtieneSolucion(Sudoku sudoku)
     {
         return sudoku.getMatriz_solucion();
+    }
+    
+    /**
+     * Valida que la matriz de juego corresponda celda por celda con la solución
+     * @param sudoku Estructura del juego sudoku
+     * @return Devuelve verdadero si el juego está completamente solucionado.
+     */
+    public boolean ValidaSolucionJuegoActual(Sudoku sudoku)
+    {
+        boolean resp = true;
+        int[][] solucion = sudoku.getMatriz_solucion();
+        int[][] actual = sudoku.getMatriz_actual();
+        for (int i = 0; i < solucion.length; i++) {
+            for (int j = 0; j < solucion[0].length; j++) {
+                if(solucion[i][j]!=actual[i][j])
+                    return false;
+            }
+        }
+        
+        return resp;
     }
            
 }

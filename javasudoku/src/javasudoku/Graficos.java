@@ -6,49 +6,33 @@ package javasudoku;
 
 /**
  *
- * @author nico
  */
 public class Graficos {
     
-    
-    /*
-     * Imprime sodoku
-     * recibe la matriz  y la muestra por pantalla.
-     * int omatriz[][]= new int[9][9];
-     */
-    public void ImprimeSodoku(int omatriz[][]){
-         try{            
-              for (int i = 0; i < omatriz.length; i++) {
-                  ImprimeSeparadores(i, "-");
-                for (int j = 0; j < omatriz[i].length; j++) {
-                      ImprimeSeparadores(j, "|");
-                      System.out.print(" " + omatriz[i][j] + " ");
-              }
-                ImprimeSeparadores(9, "|");
-                System.out.println();
-            }
-              ImprimeSeparadores(9, "-");
-          }
-          catch(Exception e){
-                 System.out.println("ERROR al imprimir Sodoku" + e.getStackTrace());
-          }
-    }
-    
-    /*
-     * Imprime el tipo de separador.
-     */
-    private void ImprimeSeparadores(int ij,String pSeparador ){
-        String separador = ((pSeparador.equals("|")? "|":"-------------------------------"));
-        switch(ij){
-            case 0:
-            case 3:
-            case 6:
-            case 9:
-                if(separador.equals("|"))
-                    System.out.print(separador);
-                else
-                     System.out.println(separador);
-            break;
+    /**
+     * Imprime la matriz del juego
+     * @param matriz
+     */   
+    public void ImprimeSudoku(int matriz[][])
+    {       
+        System.out.print("   ");
+        for (int a = 1; a < 10; a++) {
+            System.out.print(" "+a+"  ");
         }
-    }
+        System.out.println("");
+        System.out.println("  -------------------------------------");
+        
+        for (int i = 0; i < matriz.length; i++) {
+            System.out.print(i+1);
+            for (int j = 0; j < matriz[0].length; j++) {
+                if(matriz[i][j]==0)
+                    System.out.print(" | "+" ");
+                else
+                    System.out.print(" | "+matriz[i][j]);
+            }
+            System.out.print(" |");
+            System.out.println("");
+            System.out.println("  -------------------------------------");
+        }
+    }   
 }
