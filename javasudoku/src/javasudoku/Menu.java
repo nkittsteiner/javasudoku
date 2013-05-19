@@ -166,7 +166,7 @@ public class Menu {
      */
     public void ListarJugadas()
     {
-        List<Movimientos> lista = sudoku.getListadoMovimientos();
+        List<Movimientos> lista = juego.ListarMovimientos(sudoku);
         //Muestra jugadas secuencialmente
         for (int i = 0; i < lista.size(); i++) {
             System.out.print("Tipo jugada: ");

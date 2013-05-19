@@ -409,8 +409,7 @@ public class Juego {
         solucion = sudoku.getMatriz_solucion();
         sudoku.setMatriz_inicial(BorraElementosPorDificultad(solucion,
                 dificultad));
-        sudoku.setMatriz_actual(sudoku.getMatriz_inicial());
-        
+        sudoku.setMatriz_actual(sudoku.getMatriz_inicial());        
         return sudoku;
     }
     
@@ -420,7 +419,7 @@ public class Juego {
      */
     public Sudoku ReiniciarJuego(Sudoku sudoku)
     {
-        sudoku.setListadoMovimientos(null);
+        sudoku.setListadoMovimientos(new ArrayList<Movimientos>());
         sudoku.setMatriz_actual(sudoku.getMatriz_inicial());
         return(sudoku);
     }
